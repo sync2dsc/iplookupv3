@@ -1,0 +1,10 @@
+[+] Features
+
+[+] Avoir le pays d'une IP
+[+] Avoir la ville approximative d'une IP 
+[+] Avoir la région d'une IP
+[+] Avoir le Code Postale approximatif d'une IP
+[+] Savoir approximativement si c'est une ip qui provient de VPN / Proxy / Réseau TOR (/relay)
+[+] Savoir approximativement si l'IP est static ou dynamique
+[+] Ping une IP (savoir si l'ip est actuellement en ligne ou non)
+[+] Savoir le fournisseur d'accès a Internet (opérateur)
