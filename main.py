@@ -1,6 +1,7 @@
 from colorama import Fore, init
 import requests
 from ipwhois import IPWhois
+import os
 
 # Initialise Colorama pour la coloration du texte dans la console
 init(autoreset=True)
@@ -16,10 +17,16 @@ def display_menu():
     print("3. Quitter")
 
 # Fonction pour pinger une adresse IP
-def ping_ip():
-    ip_address = input("Entrez l'adresse IP à pinger : ")
-    # Insérez votre code de ping ici
+def ping_ip(ip_address):
     print(Fore.GREEN + "Pinging l'adresse IP : " + ip_address)
+    
+    # Utilisation de la commande ping pour pinger l'adresse IP
+    response = os.system(f"ping -c 4 {ip_address}")  # Exécute 4 requêtes de ping
+
+    if response == 0:
+        print(Fore.GREEN + "L'adresse IP est accessible.")
+    else:
+        print(Fore.RED + "L'adresse IP n'a pas répondu au ping.")
 
 # Fonction pour obtenir des informations sur une adresse IP
 def get_ip_info():
@@ -63,16 +70,14 @@ def get_ip_info():
         except Exception as e:
             print(Fore.RED + f"Erreur lors de la vérification de l'IP : {str(e)}")
 
-    else:
-        print(Fore.RED + "Erreur lors de la récupération des informations de l'adresse IP.")
-
 # Boucle du menu
 while True:
     display_menu()
     choice = input("Entrez le numéro de votre choix : ")
 
     if choice == "1":
-        ping_ip()
+        ip_address = input("Entrez l'adresse IP à pinger : ")
+        ping_ip(ip_address)
     elif choice == "2":
         get_ip_info()
     elif choice == "3":
