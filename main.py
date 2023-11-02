@@ -1,9 +1,14 @@
 from colorama import Fore, init
 from ping3 import ping
 import os
+import requests
+from ipwhois import IPWhois
 
 # Initialisation de Colorama pour la coloration du texte dans la console
 init(autoreset=True)
+
+# Clé API ipinfo.io
+api_key = "461a2087be663e"
 
 # Fonction pour afficher le menu
 def afficher_menu():
@@ -31,43 +36,37 @@ def obtenir_informations_ip():
     os.system('cls' if os.name == 'nt' else 'clear')  # Effacer la console
     adresse_ip = input("Entrez l'adresse IP que vous souhaitez cibler : ")
     url = f"https://ipinfo.io/{adresse_ip}/json?token={api_key}"
-    response = requests.get(url)
+    
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Vérifier s'il y a une erreur dans la réponse HTTP
 
-    if response.status_code == 200:
-        data = response.json()
-        print(Fore.GREEN + "Informations sur l'adresse IP : " + adresse_ip)
-        print("Pays :", data.get("country"))
-        print("Ville :", data.get("city"))
-        print("Région :", data.get("region"))
-        print("Code Postal :", data.get("postal"))
-        print("Longitude :", data.get("loc").split(",")[1])
-        print("Latitude :", data.get("loc").split(",")[0])
+        if response.status_code == 200:
+            data = response.json()
+            print(Fore.GREEN + "Informations sur l'adresse IP : " + adresse_ip)
+            print("Pays :", data.get("country"))
+            print("Ville :", data.get("city"))
+            print("Région :", data.get("region"))
+            print("Code Postal :", data.get("postal"))
+            print("Longitude :", data.get("loc").split(",")[1])
+            print("Latitude :", data.get("loc").split(",")[0])
 
-        isp = data.get("org")
-        if "vpn" in isp.lower():
-            print("VPN détecté.")
-        elif "proxy" in isp.lower():
-            print("Proxy détecté.")
+            isp = data.get("org")
+            if "vpn" in isp.lower():
+                print("VPN détecté.")
+            elif "proxy" in isp.lower():
+                print("Proxy détecté.")
+            else:
+                print("Pas de VPN ou de proxy détecté.")
+
+            # Vérification approximative de l'utilisation d'un relais IP (TOR si tu préfères)
+            if "relay" in isp.lower():
+                print("Utilisation d'un relais IP détectée (approximativement).")
         else:
-            print("Pas de VPN ou de proxy détecté.")
+            print(Fore.RED + "Erreur lors de la récupération des informations de l'adresse IP.")
+    except Exception as e:
+        print(Fore.RED + f"Erreur lors de la récupération des informations de l'adresse IP : {str(e)}")
 
-        # Vérification approximative de l'utilisation d'un relais IP (TOR si tu préfères)
-        if "relay" in isp.lower():
-            print("Utilisation d'un relais IP détectée (approximativement).")
-    else:
-        print(Fore.RED + "Erreur lors de la récupération des informations de l'adresse IP.")
-
-        # Vérification approximative de l'IP dynamique ou statique
-        try:
-            ipwhois = IPWhois(adresse_ip)
-            result = ipwhois.lookup_rdap()
-            if "allocationStatus" in result:
-                if result["allocationStatus"] == "assigned":
-                    print("IP statique (approximativement).")
-                else:
-                    print("IP dynamique (approximativement).")
-        except Exception as e:
-            print(Fore.RED + f"Erreur lors de la vérification de l'IP : {str(e)}")
     input("Appuyez sur Entrée pour continuer...")
 
 # Boucle du menu principal
