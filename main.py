@@ -10,9 +10,13 @@ init(autoreset=True)
 # Clé API ipinfo.io
 api_key = "461a2087be663e"
 
+# Fonction pour effacer la console
+def effacer_console():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 # Fonction pour afficher le menu
 def afficher_menu():
-    os.system('cls' if os.name == 'nt' else 'clear')  # Effacer la console
+    effacer_console()  # Effacer la console
     print(Fore.YELLOW + "Menu :")
     print("1. Pinger une adresse IP")
     print("2. Informations sur une adresse IP")
@@ -20,7 +24,7 @@ def afficher_menu():
 
 # Fonction pour pinger une adresse IP en utilisant la bibliothèque ping3
 def pinger_ip(adresse_ip):
-    os.system('cls' if os.name == 'nt' else 'clear')  # Effacer la console
+    effacer_console()  # Effacer la console
     print(Fore.GREEN + "Ping de l'adresse IP : " + adresse_ip)
     temps_de_reponse = ping(adresse_ip)
     
@@ -33,7 +37,7 @@ def pinger_ip(adresse_ip):
 
 # Fonction pour obtenir des informations sur une adresse IP
 def obtenir_informations_ip():
-    os.system('cls' if os.name == 'nt' else 'clear')  # Effacer la console
+    effacer_console()  # Effacer la console
     adresse_ip = input("Entrez l'adresse IP que vous souhaitez cibler : ")
     url = f"https://ipinfo.io/{adresse_ip}/json?token={api_key}"
     
@@ -85,4 +89,4 @@ while True:
     else:
         print(Fore.RED + "Choix invalide. Veuillez entrer 1, 2 ou 3.")
         input("Appuyez sur Entrée pour continuer...")
-            
+        
