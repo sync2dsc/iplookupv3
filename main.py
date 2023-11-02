@@ -42,3 +42,4 @@ while True:
         break
     else:
         print(Fore.RED + "Choix invalide. Veuillez entrer 1, 2 ou 3.")
+        
