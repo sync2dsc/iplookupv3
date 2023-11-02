@@ -18,9 +18,9 @@ def effacer_console():
 def afficher_menu():
     effacer_console()  # Effacer la console
     print(Fore.YELLOW + "Menu :")
-    print("1. Pinger une adresse IP")
-    print("2. Informations sur une adresse IP")
-    print("3. Quitter")
+    print(Fore.RED + "1. Pinger une adresse IP")
+    print(Fore.BLUE + "2. Informations sur une adresse IP")
+    print(Fore.GREEN + "3. Quitter")
 
 # Fonction pour pinger une adresse IP en utilisant la bibliothèque ping3
 def pinger_ip(adresse_ip):
@@ -48,12 +48,12 @@ def obtenir_informations_ip():
         if response.status_code == 200:
             data = response.json()
             print(Fore.GREEN + "Informations sur l'adresse IP : " + adresse_ip)
-            print("Pays :", data.get("country"))
-            print("Ville :", data.get("city"))
-            print("Région :", data.get("region"))
-            print("Code Postal :", data.get("postal"))
-            print("Longitude :", data.get("loc").split(",")[1])
-            print("Latitude :", data.get("loc").split(",")[0])
+            print(Fore.BLUE + "Pays :", data.get("country"))
+            print(Fore.YELLOW + "Ville :", data.get("city"))
+            print(Fore.RED + "Région :", data.get("region"))
+            print(Fore.GREEN + "Code Postal :", data.get("postal"))
+            print(Fore.BLUE + "Longitude :", data.get("loc").split(",")[1])
+            print(Fore.YELLOW + "Latitude :", data.get("loc").split(",")[0])
 
             isp = data.get("org")
             if "vpn" in isp.lower():
@@ -89,4 +89,4 @@ while True:
     else:
         print(Fore.RED + "Choix invalide. Veuillez entrer 1, 2 ou 3.")
         input("Appuyez sur Entrée pour continuer...")
-        
+    
